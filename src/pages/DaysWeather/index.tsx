@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import get5DaysForecasts from "../../utils/get5DaysForecasts.ts";
 
-function CurrentLocWeather() {
+
+function CurrentLocForecast({func, args}) {
     const [forecastData, setForecastData] = useState([]);
     const [selectedDay, setSelectedDay] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         (async () => {
-            await get5DaysForecasts(setForecastData, setLoading, setSelectedDay);
+            await func(...args, setForecastData, setLoading, setSelectedDay);
         })();
-        console.log(loading)
-    }, []);
+        
+    }, [func,args]);
 
     if (loading) return <p className="text-center text-lg">Loading...</p>;
 
@@ -88,6 +88,9 @@ function CurrentLocWeather() {
                                 <p className="text-xs text-gray-700 capitalize mt-1">
                                     {hour?.weather[0]?.description}
                                 </p>
+                                <p className="text-xs text-gray-700 capitalize mt-1">
+                                    Humidity: {hour?.main.humidity}%
+                                </p>
                             </div>
                         ))}
                     </div>
@@ -97,4 +100,4 @@ function CurrentLocWeather() {
     );
 }
 
-export default CurrentLocWeather;
+export default CurrentLocForecast;

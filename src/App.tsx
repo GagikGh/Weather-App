@@ -1,6 +1,9 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import HomePage from "./pages/HomePage";
-import DaysWeather from "./pages/DaysWeather";
+import FavoritePage from './pages/FavoritePage'
+import DaysWeather from './pages/DaysWeather'
+import getForecastsFavoriteLoc from './utils/getForecastsFavoriteLoc';
+
 
 function App() {
     return (
@@ -13,17 +16,19 @@ function App() {
                     Home
                 </Link>
                 <Link
-                    to="/about"
+                    to="/favorites"
                     className="font-medium hover:text-yellow-300 transition-colors"
                 >
-                    5 Days Forecasts
+                    Favorites
                 </Link>
+                
 
             </nav>
 
             <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/about" element={<DaysWeather />} />
+                <Route index element={<HomePage />} />
+                <Route path="/favorites" element={<FavoritePage />} />
+                <Route path="/days-weather" element={<DaysWeather  func={getForecastsFavoriteLoc} args={[2643743]} />} />
             </Routes>
         </Router>
     );

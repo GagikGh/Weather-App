@@ -12,25 +12,22 @@ function filteredDays(list){
     return newArr;
 }
 
-const get5DaysForecasts = async (
+const getForecastsFavoriteLoc = async (
+    id: number,
     setWeather: (data: any) => void,
     setLoading: (loading: boolean) => void,
     setSelectedDay: () => void) => {
 
     setLoading(true);
-    navigator.geolocation.getCurrentPosition(
-        async (position) => {
+    
             try {
-                const { latitude, longitude } = position.coords;
 
                 const res = await fetch(
-                    `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`
+                    `https://api.openweathermap.org/data/2.5/forecast?id=${id}&appid=${API_KEY}&units=metric`
                 );
                 const data = await res.json();
 
-
                 const uniqueDates = filteredDays(data.list);
-
 
                 setWeather(uniqueDates);
                 setSelectedDay(uniqueDates[0]);
@@ -40,12 +37,6 @@ const get5DaysForecasts = async (
                 setLoading(false);
 
             }
-        },
-        (error) => {
-            console.error("Geolocation error:", error);
-            setLoading(false);
         }
-    );
-};
 
-export default get5DaysForecasts;
+export default getForecastsFavoriteLoc;
